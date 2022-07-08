@@ -152,5 +152,13 @@ xfile-sol
 
 ```
 
+## 生成json配置文件(./jsons/contracts/contract_templete.json)
+
+```
+
+  $> ./generate_conf.sh
+
+```
+
 ##
 # 版本
