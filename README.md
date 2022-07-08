@@ -161,4 +161,23 @@ xfile-sol
 ```
 
 ##
-# 版本
+
+## 代码结构
+
+```
+
+.
+├── contracts                  //合约实现文件所在目录
+│   └── interfaces             //接口文件所在目录
+├── javas                      //合约的java接口文件根目录
+├── datas                      //合约发布、更新历史记录
+├── jsons                      //自定义配置文件所在目录
+│   └── contracts              //合约管理目录
+├── output                     //solc输出目录
+└── scripts                    //功能脚本在此添加
+    └── switchs                //开关相关脚本(勿动)
+            └── contracts
+
+```
+
+#版本
