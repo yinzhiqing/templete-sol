@@ -53,25 +53,25 @@ args = [
     {
         "name":     "init",
         "value":    "",
-        "desc":     "init pdc contract with jsons/contracts/contract_NETWORK.json",
+        "desc":     "init prj contract with jsons/contracts/contract_NETWORK.json",
         "premise":  "",
     },
     {
         "name":     "open",
         "value":    "target=[deploy | upgrade] index=["+ tokens + "]",
-        "desc":     "make pdc contract can deploy. open switchs in jsons/contracts/contract_NETWORK.json",
+        "desc":     "make prj contract can deploy. open switchs in jsons/contracts/contract_NETWORK.json",
         "premise":  "",
     },
     {
         "name":     "close",
         "value":    "[target=[deploy | upgrade]] index=[" + tokens + "]",
-        "desc":     "make pdc contract can't deploy. open switchs in jsons/contracts/contract_NETWORK.json",
+        "desc":     "make prj contract can't deploy. open switchs in jsons/contracts/contract_NETWORK.json",
         "premise":  "",
     },
     {
         "name":     "show_contracts_conf",
         "value":    "",
-        "desc":     "show pdc contracts info .show jsons/contracts/contract_NETWORK.json info",
+        "desc":     "show prj contracts info .show jsons/contracts/contract_NETWORK.json info",
         "premise":  "",
     },
     {
