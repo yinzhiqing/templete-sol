@@ -1,0 +1,23 @@
+{
+    "sol1": {
+        "name":"MProofState",
+        "address":"",
+        "deploy":true,
+        "upgrade":false,
+        "params":[]
+    },
+    "sol2": {
+        "name":"MProofDatas",
+        "address":"",
+        "deploy":false,
+        "upgrade":false,
+        "params":[]
+    },
+    "sol3": {
+        "name":"MProofMain",
+        "address":"",
+        "deploy":false,
+        "upgrade":false,
+        "params":[]
+    }
+}
