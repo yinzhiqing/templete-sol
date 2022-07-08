@@ -4,7 +4,7 @@ xfile-sol
 
 
 # 功能
-  pdc合约实现个人链上申请数据，平台回复数据功能。接口参见[合约接口](https://gitlab.tech.vnet.tv/pdc/xfile-sol/-/blob/pdcnft/contracts/interface/IPDCERC721IpfsManager.sol)或[abi文件](https://gitlab.tech.vnet.tv/pdc/xfile-sol/-/blob/pdcnft/artifacts/contracts/PDCERC721IpfsManager.sol/PDCERC721IpfsManager.json)
+
 
 
 # 安装
@@ -14,8 +14,8 @@ xfile-sol
   node ^12.22.4
 
 ```
-  $> git clone -b pdcnft http://gitlab.tech.vnet.tv/pdc/vid-sol.git
-  $> cd vid-sol
+  $> git clone https://github.com/yinzhiqing/templete-sol.git
+  $> cd templete-sol
   $> npm install
 ```
 
