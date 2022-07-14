@@ -1,0 +1,20 @@
+{
+	
+	"Templete": {
+		"name": "Templete",
+		"address": "",
+		"deploy": false,
+		"upgrade": false,
+		"fixed": false,
+		"params": []
+	}
+	,
+	"TempleteEx": {
+		"name": "TempleteEx",
+		"address": "",
+		"deploy": false,
+		"upgrade": false,
+		"fixed": false,
+		"params": []
+	}
+}

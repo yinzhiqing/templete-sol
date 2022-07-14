@@ -130,6 +130,29 @@ function contract_arguments_parse(json, args) {
     return args;
 }
 
+function str_to_web3bytes(data) {
+    return web3.eth.abi.encodeParameter("bytes", web3.utils.toHex(data));
+}
+
+
+function str_to_web3bytes32(data) {
+    return web3.eth.abi.encodeParameter("bytes32", web3.utils.toHex(data));
+}
+
+function lstr_to_lweb3bytes32(datas, size) {
+    lbytes32 = [];
+    start = datas.length;
+
+    for(var i = 0; i < start; i++) {
+        lbytes32.push(str_to_web3bytes32(datas[i]));
+    }
+
+    for (var i = start; i < size - start; i++) {
+        lbytes32.push(str_to_web3bytes32(""));
+    }
+    return web3.eth.abi.encodeParameter("bytes32[]", lbytes32);
+}
+
 module.exports = {
     get_contract,
     file_exists,
@@ -141,5 +164,8 @@ module.exports = {
     filename_join,
     filename_parse,
     contract_arguments_parse,
-    contract_argument_parse
+    contract_argument_parse,
+    str_to_web3bytes32,
+    str_to_web3bytes,
+    lstr_to_lweb3bytes32
 }
