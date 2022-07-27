@@ -84,7 +84,9 @@ function close_all_deploy() {
 function open_all_deploy() {
     let has_work = false;
     for(var key in tokens) {
-        open_deploy(tokens[key], false);
+        if (!tokens[key].fixed) {
+            open_deploy(tokens[key], false);
+        }
     }
     update_conf(contract_conf);
 }
@@ -100,7 +102,9 @@ function close_all_upgrade() {
 function open_all_upgrade() {
     let has_work = false;
     for(var key in tokens) {
-        open_upgrade(tokens[key], false);
+        if (!tokens[key].fixed) {
+            open_upgrade(tokens[key], false);
+        }
     }
     update_conf(contract_conf);
 }
