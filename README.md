@@ -130,8 +130,8 @@ xfile-sol
   11. 设置需要deploy的合约(upgrade类似) `make open target=deploy index=all`
   12. deploy 合约. `make deploy`
   13. 查看状态. `make show_contracts`(未发布时，因链上没有即地址空，执行失败) 或 `make show_contracts_conf` 表格中 address内容非空或变更
-  14. 生成abi文件到***./output*** `make use_solc=true` 
-  15. 生成java接口文件，保存在***./javas/***　`./export_java.sh`, 此操作依赖**.bin** 和　**.abi** 文件
+  14. 生成abi文件到 ***./output*** `make use_solc=true` 
+  15. 生成java接口文件，保存在 ***./javas/***　`./export_java.sh`, 此操作依赖 **.bin** 和　**.abi** 文件
 
 
 # 主要命令
