@@ -71,5 +71,12 @@ module.exports = {
           accounts :{mnemonic : mnemonic}
       }
   },
+  paths: {
+      root: "./",
+      sources: "./contracts",
+      tests: "./tests",
+      cache: "./cache",
+      artifacts: "./artifacts",
+  }
 };
 
