@@ -10,7 +10,7 @@ async function convert_contract() {
     token_list = []
     for (i in tokens) {
         //tokens[i].params = utils.contract_arguments_parse(tokens, tokens[i].params);
-        token_list.push(tokens[i]);
+        token_list.push({name:tokens[i].name, address: tokens[i].address});
     }
 
     md_text = 
