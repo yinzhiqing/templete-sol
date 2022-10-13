@@ -80,6 +80,12 @@ args = [
         "desc":     "show contracts info in blockchain(chain = hardhat.conf.js:defaultNetwork)",
         "premise":  "hardhat.conf.js:defaultNetwork",
     },
+    {
+        "name":     "run_local_node",
+        "value":    "",
+        "desc":     "run local node(dev)",
+        "premise":  "",
+    },
 ]
 name_kwargs     = {"format": false}
 value_kwargs    = {"format": false, "color": "yellow"}
