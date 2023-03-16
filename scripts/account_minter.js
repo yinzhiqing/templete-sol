@@ -7,7 +7,7 @@ const logger    = require("./logger");
 const prj       = require("../prj.config.js");
 
 const bak_path  = prj.caches_contracts;
-const {nft721}  = require(prj.contract_conf);
+const tokens  = require(prj.contract_conf);
 const {ethers, upgrades}    = require("hardhat");
 
 async function get_contract(name, address) {
@@ -28,25 +28,29 @@ async function balance_of(client, owner) {
 
 
 async function run() {
-    logger.debug("start working...", "role opt");
+    logger.debug("start working...", "account minter");
     //await show_accounts();
-    let cobj = await get_contract(nft721.name, nft721.address);
-    logger.debug("nft address: " + nft721.address);
-    
-    const accounts = await web3.eth.getAccounts();
-    let account = accounts[2];
-    
+    for (var token_name in tokens) {
+        logger.debug("#contract name: " + token_name);
+        token = tokens[token_name];
+        let cobj = await get_contract(token.name, token.address);
+        logger.debug("nft address: " + token.address);
 
-    let name = await cobj.name();
-    logger.debug("name: " + name);
+        const accounts = await web3.eth.getAccounts();
+        let account = accounts[2];
 
-    let amounts = await balance_of(cobj, account);
-    logger.info(account + " has balance " + amounts);
-    logger.debug("amounts: " + amounts);
-    for (let i = 0; i < amounts; i++) {
-        let tokenId = await cobj.tokenOfOwnerMintByIndex(account, i);
-        logger.info("token id(" + (i + 1) + "): " + tokenId);
-    } 
+
+        let name = await cobj.name();
+        logger.debug("name: " + name);
+
+        let amounts = await balance_of(cobj, account);
+        logger.info(account + " has balance " + amounts);
+        logger.debug("amounts: " + amounts);
+        for (let i = 0; i < amounts; i++) {
+            let tokenId = await cobj.tokenOfOwnerMintByIndex(account, i);
+            logger.info("token id(" + (i + 1) + "): " + tokenId);
+        } 
+    }
 }
 
 run()

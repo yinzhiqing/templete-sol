@@ -3,7 +3,7 @@ const prj    = require("../prj.config.js");
 const logger    = require("./logger");
 
 const {ethers, upgrades} = require("hardhat");
-const {nft721} = require(prj.contract_conf);
+const tokens = require(prj.contract_conf);
 
 async function run() {
     let prj_conf = {
@@ -11,9 +11,7 @@ async function run() {
         network:    prj.configs.defaultNetwork
     }
 
-    let contracts_conf = {
-        nft721: nft721
-    }
+    let contracts_conf = tokens;
 
     logger.show_msg(prj_conf,    "prj");
 

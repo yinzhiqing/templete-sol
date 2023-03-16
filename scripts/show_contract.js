@@ -4,7 +4,7 @@ const utils     = require("./utils");
 const logger    = require("./logger");
 const prj       = require("../prj.config.js");
 const contract_conf = prj.contract_conf;
-const {nft721} = require(contract_conf);
+const tokens  = require(prj.contract_conf);
 
 async function get_contract(name, address) {
     return await utils.get_contract(name, address);
@@ -31,30 +31,41 @@ async function account_info() {
     show_msg(sdatas, "accounts");
 }
 
-async function nft721_env() {
-    if (nft721.use == true) {
-        logger.info("not show nft721 info");
+function is_target_name(token_name) {
+    let target_token_name = "";
+    return (target_token_name == "" || target_token_name == token_name) && token_name != "";
+}
+
+async function tokens_env() {
+    for (var token_name in tokens) {
+        if (!is_target_name(token_name)) continue;
+
+        logger.debug("#contract name: " + token_name);
+        token = tokens[token_name];
+        await token_env(token);
     }
-    let cobj = await get_contract(nft721.name, nft721.address);
+}
+async function token_env(token) {
+    let cobj = await get_contract(token.name, token.address);
     let sdatas = {
-        name: nft721.name,
+        name: token.name,
         contractname: await cobj.name(),
         contractsymbol: await cobj.symbol(),
-        contractAddress: nft721.address,
+        contractAddress: token.address,
     }
-    show_msg(sdatas, "nft721");
+    show_msg(sdatas, token.name);
 }
 
 async function run_fix() {
 
-    await nft721_env();
+    await tokens_env();
 }
 
 async function run() {
     logger.debug("start working...", "chain contract");
     await chain_env();
     await account_info();
-    await nft721_env();
+    await tokens_env();
 }
 
 run()

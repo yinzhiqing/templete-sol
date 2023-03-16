@@ -84,6 +84,10 @@ define show_tokens
 	@npx hardhat run ./scripts/switchs/$(strip $1)/show_tokens.js
 endef
 
+define run_script
+	@npx hardhat run ./scripts/$(strip $1).js
+endef
+
 
 open: 
 	$(call show_conf, "contracts")
@@ -120,6 +124,9 @@ show_contracts_conf_parsed:
 run_local_node:
 	@npx hardhat node
 
+run:
+	$(call run_script, $(md))
+
 indexs:
 	$(call show_tokens, "contracts")
 
@@ -132,6 +139,20 @@ make_md:
 export_java:
 	@~/.web3j/web3j generate solidity -a $output_path/contracts/"$n"_output/$c.abi -b $output_path/contracts/"$c"_output/$c.bin -o $output_java_path -p $class_path 
 
+mint:
+	$(call run_script, "mint")
+
+grantrole:
+	$(call run_script, "grantrole")
+
+append_type:
+	$(call run_script, "append_type")
+
+show_types:
+	$(call run_script, "show_types")
+
+show_tokens:
+	$(call run_script, "show_tokens")
 
 tests:
 	@npx hardhat run scripts/test.js

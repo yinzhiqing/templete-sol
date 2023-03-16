@@ -9,7 +9,8 @@ const prj       = require("../prj.config.js");
 
 const dbs       = prj.dbs;
 const bak_path  = prj.caches_contracts;
-const {nft721}  = require(prj.contract_conf);
+const tokens  = require(prj.contract_conf);
+const token = tokens["ViolasNft721"];
 const {ethers, upgrades}    = require("hardhat");
 
 const redis = require("redis");
@@ -25,7 +26,7 @@ async function show_accounts() {
 
 async function grant_role(address, role) {
     logger.debug("start working...", "grant_role");
-    let cobj = await get_contract(nft721.name, nft721.address);
+    let cobj = await get_contract(token.name, token.address);
     let has = await has_role(address, role);
     if (has != true) {
         logger.info("grant role :" +  role + " for " + address);
@@ -41,7 +42,7 @@ async function grant_role(address, role) {
 async function has_role(address, role) {
     //    let brole = web3.eth.abi.encodeParameter("bytes32", role);
     let brole = web3.eth.abi.encodeParameter("bytes32", web3.utils.soliditySha3(role));
-    let cobj = await get_contract(nft721.name, nft721.address);
+    let cobj = await get_contract(token.name, token.address);
     let has = await cobj.hasRole(brole, address);
     logger.info(address + " check role(" + role + ") state: " + has);
 

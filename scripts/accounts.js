@@ -7,7 +7,6 @@ const logger    = require("./logger");
 const prj       = require("../prj.config.js");
 
 const bak_path  = prj.caches_contracts;
-const {nft721}  = require(prj.contract_conf);
 const {ethers, upgrades}    = require("hardhat");
 
 async function get_contract(name, address) {
