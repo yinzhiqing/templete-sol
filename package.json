@@ -28,6 +28,8 @@
     "@openzeppelin/test-environment": "^0.1.9",
     "@openzeppelin/test-helpers": "^0.5.12",
     "chai": "^4.3.4",
+    "crypto": "^1.0.1",
+    "ethereum-cryptography": "^2.1.2",
     "ethers": "^5.6.5",
     "hardhat": "^2.5.0",
     "mocha": "^8.4.0",
@@ -36,6 +38,7 @@
     "web3": "^1.5.2"
   },
   "dependencies": {
+    "@ethersproject/abi": "^5.7.0",
     "@openzeppelin/contracts-upgradeable": "^4.1.0",
     "redis": "^4.1.0",
     "sleep": "^6.3.0",
