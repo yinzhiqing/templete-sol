@@ -1,7 +1,7 @@
 // scripts/index.js
 const prompt    = require('prompt');
-const utils     = require("./utils");
-const logger    = require("./logger");
+const utils     = require("./utils/utils");
+const logger    = require("./utils/logger");
 const prj       = require("../prj.config.js");
 const contract_conf = prj.contract_conf;
 const tokens  = require(prj.contract_conf);

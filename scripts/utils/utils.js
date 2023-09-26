@@ -2,11 +2,10 @@
 const fs        = require('fs');
 const path      = require("path");
 const logger    = require("./logger");
-const prj       = require("../prj.config.js");
+const prj       = require("../../prj.config.js");
 const { ethers, upgrades } = require("hardhat");
 const crypto    = require("crypto");
 const tokens    = require(prj.contract_conf);
-const schedule  = require('node-schedule');
 
 const ARG_FLG_TXT = "!REF:";
 const ARG_VAL_SPLIT = ".";

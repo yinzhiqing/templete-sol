@@ -27,7 +27,7 @@ module.exports = {
   solidity: {
       compilers: [
           {
-            version: "0.8.1",
+            version: "0.8.2",
             settings: {
                 optimizer: {
                     enabled: true,
@@ -36,12 +36,12 @@ module.exports = {
             }
           },
           {
-            version: "0.8.1",
+            version: "0.8.2",
             settings: {}
           }
       ]
   },
-  defaultNetwork: "internal",
+  defaultNetwork: "localhost",
   networks: {
       hardhat: {
           mining: {
@@ -58,16 +58,15 @@ module.exports = {
       },
 
       external: {
-          url: `http://124.251.110.238/rpc`,
+          url: `https://kovan.infura.io/v3/${key_infura}`,
           accounts :{mnemonic : mnemonic}
       },
       internal: {
-          //url: `https://kovan.infura.io/v3/${key_infura}`,
-          url: `http://124.251.110.238/rpc`,
+          url: `https://kovan.infura.io/v3/${key_infura}`,
           accounts :{mnemonic : mnemonic}
       },
       mainnet: {
-          url: `http://124.251.110.238/rpc`,
+          url: `https://kovan.infura.io/v3/${key_infura}`,
           accounts :{mnemonic : mnemonic}
       }
   },

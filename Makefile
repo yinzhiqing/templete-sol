@@ -64,10 +64,10 @@ clean:
 endif
 
 upgrade:
-	npx hardhat run ./scripts/deploy_upgrade.js
+	npx hardhat run ./scripts/utils/deploy_upgrade.js
 
 deploy:
-	npx hardhat run ./scripts/deploy_upgrade.js
+	npx hardhat run ./scripts/utils/deploy_upgrade.js
 
 show_contracts:
 	npx hardhat run ./scripts/show_contract.js
@@ -134,28 +134,22 @@ accounts:
 	@npx hardhat run scripts/accounts.js
 
 make_md:
-	@npx hardhat run scripts/make_jsons_docs.js
+	@npx hardhat run scripts/utils/make_jsons_docs.js
 
 export_java:
 	@~/.web3j/web3j generate solidity -a $output_path/contracts/"$n"_output/$c.abi -b $output_path/contracts/"$c"_output/$c.bin -o $output_java_path -p $class_path 
 
-mint:
-	$(call run_script, "mint")
+mint_user:
+	$(call run_script, "mint_user")
 
 grantrole:
 	$(call run_script, "grantrole")
 
-append_type:
-	$(call run_script, "append_type")
-
-show_types:
-	$(call run_script, "show_types")
+show_users:
+	$(call run_script, "show_users")
 
 show_tokens:
 	$(call run_script, "show_tokens")
-
-tests:
-	@npx hardhat run scripts/test.js
 
 help:
 	@npx hardhat run scripts/helps.js

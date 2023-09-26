@@ -1,4 +1,4 @@
-const prj    = require("../prj.config.js");
+const prj    = require("../../prj.config.js");
 const markdown  = require("./markdown");
 const logger    = require("./logger");
 const utils     = require("./utils");

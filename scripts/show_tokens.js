@@ -2,8 +2,8 @@
 const fs        = require('fs');
 const path      = require("path");
 const program   = require('commander');
-const utils     = require("./utils");
-const logger    = require("./logger");
+const utils     = require("./utils/utils");
+const logger    = require("./utils/logger");
 const prj       = require("../prj.config.js");
 
 const bak_path  = prj.caches_contracts;
@@ -16,7 +16,8 @@ async function get_contract(name, address) {
 
 function is_target_name(token_name) {
     let target_token_name = "";
-    return (target_token_name == "" || target_token_name == token_name) && token_name != "";
+    let extends_name = ["ChainDns", "ChainNotes"];
+    return (target_token_name == "" || target_token_name == token_name) && token_name != "" && !extends_name.includes(token_name);
 }
 
 async function show_tokens(token) {
@@ -31,14 +32,11 @@ async function show_tokens(token) {
     let list = [];
     for (let i = 0; i < amounts; i++) {
         let row = {}
-        row["tokenId"] = web3.utils.toHex(await cobj.tokenByIndex(i));
+        row["tokenId"] =(await cobj.tokenByIndex(i)).toString();
         row["owner"]   = await cobj.ownerOf(row["tokenId"]);
-        row["type"]    = web3.utils.toHex(await cobj.typeOfToken(row["tokenId"]));
-        row["typeDatas"]    = await cobj.typeDatasOfType(row["type"]);
-        row["approv"]    = await cobj.getApproved(row["tokenId"]);
         list.push(row);
     } 
-    logger.table(list);
+    logger.table(list, "token Info");
 }
 
 async function run() {

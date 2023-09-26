@@ -1,4 +1,4 @@
-const logger = require("./logger");
+const logger = require("./utils/logger");
 const switchs = require("./switchs/contracts/deploy_upgrade_swith.js");
 const tokens = switchs.token_names();
 args = [

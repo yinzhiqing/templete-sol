@@ -6,11 +6,13 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/math/SafeMathUpgradeable.sol";
+import "./interface/IChainDns.sol";
 
-contract AssemblyDNS is 
+contract ChainDns is 
     Initializable, 
     AccessControlEnumerableUpgradeable, 
-    PausableUpgradeable
+    PausableUpgradeable,
+    IChainDns
 {
     //variable members
     string private _name;
@@ -26,26 +28,24 @@ contract AssemblyDNS is
     mapping (uint256 => string)     private _names;
     uint256 private _count;
 
-    event Set(string indexed name, address addr, address manager);
-    event Del(string indexed name, address addr, address manager);
 
     function initialize(string memory name_, string memory symbol_) 
     initializer 
     public 
     {
-        __AssemblyDNS_init(name_, symbol_);
+        __ChainDns_init(name_, symbol_);
 
     }
-    function __AssemblyDNS_init(string memory name_, string memory symbol_)
+    function __ChainDns_init(string memory name_, string memory symbol_)
     internal 
     initializer 
     {
         __Pausable_init_unchained();
         __AccessControlEnumerable_init_unchained();
-        __AssemblyDNS_init_unchained(name_, symbol_);
+        __ChainDns_init_unchained(name_, symbol_);
     }
 
-    function __AssemblyDNS_init_unchained(string memory name_, string memory symbol_) 
+    function __ChainDns_init_unchained(string memory name_, string memory symbol_) 
     internal initializer 
     {
         _name   = name_;
@@ -57,15 +57,16 @@ contract AssemblyDNS is
         //other init
     }
 
-    function name() public view virtual returns(string memory) 
+    function name() public view virtual override returns(string memory) 
     {
         return _name;
     }
 
-    function symbol() public view virtual returns(string memory) 
+    function symbol() public view virtual override returns(string memory) 
     {
         return _symbol;
     }
+
     /**
      * @dev Pauses all token transfers.
      *
@@ -75,8 +76,8 @@ contract AssemblyDNS is
      *
      * - the caller must have the `PAUSER_ROLE`.
      */
-    function pause() public virtual {
-        require(hasRole(PAUSER_ROLE, _msgSender()), "AssemblyDNS: must have pauser role to pause");
+    function pause() public virtual override {
+        require(hasRole(PAUSER_ROLE, _msgSender()), "ChainDns: must have pauser role to pause");
         _pause();
     }
 
@@ -89,41 +90,41 @@ contract AssemblyDNS is
      *
      * - the caller must have the `PAUSER_ROLE`.
      */
-    function unpause() public virtual {
-        require(hasRole(PAUSER_ROLE, _msgSender()), "AssemblyDNS: must have pauser role to unpause");
+    function unpause() public virtual override {
+        require(hasRole(PAUSER_ROLE, _msgSender()), "ChainDns: must have pauser role to unpause");
         _unpause();
     }
 
-    function set(string memory name_, address addr_) public whenNotPaused virtual {
-        require(hasRole(MANAGER_ROLE, _msgSender()), "AssemblyDNS: must have pauser role to set");
+    function set(string memory name_, address addr_) public whenNotPaused virtual override {
+        require(hasRole(MANAGER_ROLE, _msgSender()), "ChainDns: must have pauser role to set");
         if (_exists[name_]) {
             _addresses[_hosts[name_]] = addr_;
         } else {
-            _hosts[name_] = _count;
+            _hosts[name_]      = _count;
             _addresses[_count] = addr_;
-            _names[_count] = name_;
-            _exists[name_] = true;
-            _count = _count + 1;
+            _names[_count]     = name_;
+            _exists[name_]     = true;
+            _count             = _count + 1;
         }
         emit Set(name_, addr_, _msgSender());
     }
 
-    function addressOf(string memory name_) public view virtual returns(address) {
+    function addressOf(string memory name_) public view virtual override  returns(address) {
         if (_exists[name_]) {
             return _addresses[_hosts[name_]];
         }
         return address(0);
     }
 
-    function exists(string memory name_) public view virtual returns(bool) {
+    function exists(string memory name_) public view virtual override  returns(bool) {
         return _exists[name_];
     }
 
-    function count() public view virtual returns(uint256) {
+    function count() public view virtual override  returns(uint256) {
         return _count;
     }
 
-    function hostOf(uint256 index) public view virtual returns(string memory, address) {
+    function hostOf(uint256 index) public view virtual override  returns(string memory, address) {
         if (index < _count) {
             return (_names[index], _addresses[index]);
         }

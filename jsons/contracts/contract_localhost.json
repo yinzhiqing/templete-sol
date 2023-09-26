@@ -1,10 +1,34 @@
 {
-	"NAME": {
-		"name": "",
-		"address": "",
+	"ChainDns": {
+		"name": "ChainDns",
+		"address": "0xAD523115cd35a8d4E60B3C0953E0E0ac10418309",
 		"deploy": false,
 		"upgrade": false,
+		"fixed": false,
 		"params": [
+			"ChainDns",
+			"ChainDns"
+		]
+	},
+	"ChainUser": {
+		"name": "ChainUser",
+		"address": "0x045857BDEAE7C1c7252d611eB24eB55564198b4C",
+		"deploy": false,
+		"upgrade": false,
+		"fixed": false,
+		"params": [
+			"!REF:ChainDns.address"
+		]
+	},
+	"ChainNotes": {
+		"name": "ChainNotes",
+		"address": "0x413b1AfCa96a3df5A686d8BFBF93d30688a7f7D9",
+		"deploy": false,
+		"upgrade": false,
+		"fixed": false,
+		"params": [
+			"ChainNotes",
+			"ChainNotes"
 		]
 	}
 }

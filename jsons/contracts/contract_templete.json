@@ -1,7 +1,52 @@
 {
 	
-	"ViolasNft721": {
-		"name": "ViolasNft721",
+	"Base": {
+		"name": "Base",
+		"address": "",
+		"deploy": false,
+		"upgrade": false,
+		"fixed": false,
+		"params": []
+	}
+	,
+	"TempleteEx": {
+		"name": "TempleteEx",
+		"address": "",
+		"deploy": false,
+		"upgrade": false,
+		"fixed": false,
+		"params": []
+	}
+	,
+	"Templete": {
+		"name": "Templete",
+		"address": "",
+		"deploy": false,
+		"upgrade": false,
+		"fixed": false,
+		"params": []
+	}
+	,
+	"ChainUser": {
+		"name": "ChainUser",
+		"address": "",
+		"deploy": false,
+		"upgrade": false,
+		"fixed": false,
+		"params": []
+	}
+	,
+	"ChainNotes": {
+		"name": "ChainNotes",
+		"address": "",
+		"deploy": false,
+		"upgrade": false,
+		"fixed": false,
+		"params": []
+	}
+	,
+	"ChainDns": {
+		"name": "ChainDns",
 		"address": "",
 		"deploy": false,
 		"upgrade": false,

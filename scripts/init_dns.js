@@ -2,8 +2,8 @@
 const fs        = require('fs');
 const path      = require("path");
 const program   = require('commander');
-const utils     = require("./utils");
-const logger    = require("./logger");
+const utils     = require("./utils/utils");
+const logger    = require("./utils/logger");
 const prj       = require("../prj.config.js");
 
 const bak_path  = prj.caches_contracts;
@@ -14,15 +14,10 @@ async function get_contract(name, address) {
     return await utils.get_contract(name, address);
 }
 
-function is_dns(token_name) {
-    let target_token_name = "AssemblyDNS";
-    return (target_token_name == "" || target_token_name == token_name) && token_name != "";
-}
-
 async function has_role(client, address) {
     let role= await client.MANAGER_ROLE();
     let has = await client.hasRole(role, address);
-    logger.info(address + " check role(" + role + ") state: " + has);
+    logger.debug(address + " check role(" + role + ") state: " + has);
 
     return has;
 }
@@ -34,16 +29,15 @@ async function set(client, signer, name, address){
         return;
     } 
 
-    logger.debug("set dns(name, address): (" + name + " ," + address + ")");
+    logger.info("set dns(name, address): (" + name + " ," + address + ")");
     tx = await client.connect(signer).set(name, address);
     logger.debug(tx);
 }
 
 async function run() {
-    logger.debug("start working...", "notes");
+    logger.debug("start working...", "init dns");
 
-    token = tokens["AssemblyDNS"];
-    let cobj = await get_contract(token.name, token.address);
+    let cobj = await utils.contract("ChainDns");
 
     const accounts = await web3.eth.getAccounts();
     let role = 0x00; //"DEFAULT_ADMIN_ROLE";

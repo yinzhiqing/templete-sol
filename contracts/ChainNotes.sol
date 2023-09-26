@@ -8,7 +8,7 @@ import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgrad
 import "@openzeppelin/contracts-upgradeable/utils/math/SafeMathUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 
-contract AssemblyNotes is 
+contract ChainNotes is 
     Initializable, 
     AccessControlEnumerableUpgradeable, 
     PausableUpgradeable
@@ -35,19 +35,19 @@ contract AssemblyNotes is
     initializer 
     public 
     {
-        __AssemblyNotes_init(name_, symbol_);
+        __ChainNotes_init(name_, symbol_);
 
     }
-    function __AssemblyNotes_init(string memory name_, string memory symbol_)
+    function __ChainNotes_init(string memory name_, string memory symbol_)
     internal 
     initializer 
     {
         __Pausable_init_unchained();
         __AccessControlEnumerable_init_unchained();
-        __AssemblyNotes_init_unchained(name_, symbol_);
+        __ChainNotes_init_unchained(name_, symbol_);
     }
 
-    function __AssemblyNotes_init_unchained(string memory name_, string memory symbol_) 
+    function __ChainNotes_init_unchained(string memory name_, string memory symbol_) 
     internal initializer 
     {
         _name   = name_;
@@ -79,7 +79,7 @@ contract AssemblyNotes is
      * - the caller must have the `PAUSER_ROLE`.
      */
     function pause() public virtual {
-        require(hasRole(PAUSER_ROLE, _msgSender()), "AssemblyNotes: must have pauser role to pause");
+        require(hasRole(PAUSER_ROLE, _msgSender()), "ChainNotes: must have pauser role to pause");
         _pause();
     }
 
@@ -93,12 +93,12 @@ contract AssemblyNotes is
      * - the caller must have the `PAUSER_ROLE`.
      */
     function unpause() public virtual {
-        require(hasRole(PAUSER_ROLE, _msgSender()), "AssemblyNotes: must have pauser role to unpause");
+        require(hasRole(PAUSER_ROLE, _msgSender()), "ChainNotes: must have pauser role to unpause");
         _unpause();
     }
 
     function write(string memory data) public whenNotPaused virtual {
-        //require(hasRole(WRITER_ROLE, _msgSender()), "AssemblyDNS: must have pauser role to set");
+        //require(hasRole(WRITER_ROLE, _msgSender()), "ChainDNS: must have pauser role to set");
         emit Write(_msgSender(), _index.current(), _senderIndex[_msgSender()].current(), _preBlockNumber[_msgSender()], block.timestamp ,data);
 
         _index.increment();
