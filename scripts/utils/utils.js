@@ -2,10 +2,13 @@
 const fs        = require('fs');
 const path      = require("path");
 const logger    = require("./logger");
-const prj       = require("../../prj.config.js");
+const prj       = require("../prj.config.js");
 const { ethers, upgrades } = require("hardhat");
 const crypto    = require("crypto");
 const tokens    = require(prj.contract_conf);
+const schedule  = require('node-schedule');
+const env       = require("./datas/env.config.js");
+const users      = env.users;
 
 const ARG_FLG_TXT = "!REF:";
 const ARG_VAL_SPLIT = ".";
@@ -19,6 +22,15 @@ async function get_contract(name, address) {
 async function contract(name) {
     let token = tokens[name];
     return await get_contract(token.name, token.address);
+}
+
+async function contract_ext(abi, address) {
+    return await ethers.getContractAt(abi, address);
+}
+
+async function has_role(cobj, address, role) {
+    let brole = web3.eth.abi.encodeParameter("bytes32", web3.utils.soliditySha3(role));
+    return await cobj.hasRole(brole, address);
 }
 
 function get_files(pathname, ext) {
@@ -153,6 +165,14 @@ function w3str_to_str(data) {
     return web3.eth.abi.decodeParameter("string", data);
 }
 
+function w3address_to_hex(data) {
+    return web3.eth.abi.decodeParameter("address", data);
+}
+
+function hex_to_address(data) {
+    return web3.eth.abi.encodeParameter("address", data);
+}
+
 function str_to_w3bytes(data) {
     return web3.eth.abi.encodeParameter("bytes", web3.utils.toHex(data));
 }
@@ -162,6 +182,11 @@ function w3bytes32_to_str(data) {
 }
 
 function w3uint256_to_hex(data) {
+    return web3.utils.toHex(data.toString());
+}
+
+function w3uint256_to_shex(data) {
+    data = web3.eth.abi.decodeParameter("uint256", web3.utils.toHex(data));
     return web3.utils.toHex(data.toString());
 }
 
@@ -185,6 +210,9 @@ function strs_to_w3uint256s(data) {
     return web3.eth.abi.encodeParameter("uint256[]", data);
 }
 
+function strs_to_w3strs(data) {
+    return web3.eth.abi.encodeParameter("string[]", data);
+}
 function lstr_to_lweb3bytes32(datas, size) {
     lbytes32 = [];
     start = datas.length;
@@ -224,6 +252,24 @@ function hex_to_ascii(data) {
     return web3.utils.hexToAscii(data);
 }
 
+function time_s_to_dhms(value) {
+    let min_sec   = 60; 
+    let hour_sec  = 60 * min_sec;
+    let day_sec   = 24 * hour_sec;
+    let days      = Math.floor(value/ day_sec);
+    let hours     = Math.floor((value - day_sec * days) / hour_sec);
+    let mins      = Math.floor((value - day_sec * days - hours * hour_sec) / min_sec);
+    let secs      = value - day_sec * days - hours * hour_sec - mins * min_sec;
+
+    let date_str = "";
+    date_str = days > 0 ? days + "天" : "";
+    date_str += (hours > 0 ? hours + "小时" : "");
+    date_str += (mins > 0 ? mins + "分" : "");
+    date_str += (secs + "秒");
+
+    return date_str;
+}
+
 async function schedule_job(time, func) {
     let times = '\/' + time + '* * * * *';
     //const job = schedule.scheduleJob('/5 * * * * *', func);
@@ -232,17 +278,72 @@ async function schedule_job(time, func) {
     });
 }
 
-async function scheduleJob(times, func, parameter) {
+/**
+ * @notice 循环执行
+ * @param times 间隔时间
+ * @param func  要执行的参数
+ * @param parameter func 参数
+ * @param clear true：清空控制台 
+ * @param reset_buf: 清空buf周期（秒）
+ *
+ *
+ */
+async function scheduleJob(times, func, parameter, clear, reset_buf) {
+    assert(typeof(func ) == "function", "scheduleJob: parameter(func) must be function");
+
+    let starttime = Date.now();
+    
     while(1) {
-        //try {
+        try {
+            if (reset_buf != undefined && reset_buf > 0 && Date.now() - starttime > reset_buf * 1000) {
+                switch(typeof(parameter)) {
+                    case "number": {
+                        logger.debug("number");
+                        break;
+                    }
+                    case "string": {
+                        logger.debug("string");
+                        break;
+                    }
+                    case "boolean": {
+                        logger.debug("boolean");
+                        break;
+                    }
+                    case "object": {
+                        logger.debug("object");
+                        break;
+                    }
+                    case "other" : {
+                        logger.debug("other");
+                        break;
+                    }
+
+                }
+                if(Array.isArray(parameter)) {
+                    for(let i in parameter) {
+                        if(typeof(parameter[i]) == "object" && parameter[i].alias == undefined) {
+                            parameter[i] = {};
+                        }
+                    }
+                } else {
+
+                }
+
+                starttime = Date.now();
+            }
+            if (clear == true) {
+                console.clear();
+            }
             if (parameter == null) {
                 await func();
             } else {
-                await func(parameter)
+                //await func(parameter)
+                await func.apply(null, parameter);
             }
             
-        //} catch {
-        //}
+        } catch(error) {
+            logger.warning(error);
+        }
 
         await new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -252,13 +353,26 @@ async function scheduleJob(times, func, parameter) {
     }
 }
 
+async function sleep(times) {
+    await new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({ data: 'Hello, World!' });
+        }, times * 1000);
+    });
+}
+
 function min_from_right(value, count) {
     return value > count ? value - count : 0;
 }
 
+function to_full_path(dirname, subdir, name) {
+   return path.join(dirname ,  subdir, name);
+}
 module.exports = {
+    users,
     get_contract,
     contract,
+    contract_ext,
     file_exists,
     write_json,
     write_datas,
@@ -273,10 +387,15 @@ module.exports = {
     str_to_w3bytes,
     lstr_to_lweb3bytes32,
     str_to_w3uint256,
+    strs_to_w3strs,
     strs_to_w3uint256s,
     w3uint256_to_hex,
+    w3uint256_to_shex,
     w3uint256_to_str,
+    w3uint256_to_number,
     w3bytes32_to_str,
+    w3address_to_hex,
+    hex_to_address,
     str_to_w3str,
     w3str_to_str,
     json_to_w3str,
@@ -284,5 +403,9 @@ module.exports = {
     hex_to_ascii,
     create_leaf_hash,
     scheduleJob,
-    min_from_right 
+    min_from_right,
+    time_s_to_dhms,
+    sleep,
+    to_full_path,
+    has_role,
 }
